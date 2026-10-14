@@ -1,0 +1,804 @@
+/* ============================================================
+   Kartu Ucapan Ulang Tahun — style.css
+   1 Token · 2 Reset & dasar · 3 Latar · 4 Kartu & tipografi
+   5 Tombol & form · 6 Dekorasi · 7 Pemutar musik · 8 Utilitas
+   ============================================================ */
+
+/* ---------- 1. Token ---------- */
+:root {
+  --bg-start: #2e0808;        /* Merah gelap pekat */
+  --bg-end: #170303;          /* Hitam kemerahan */
+  --primary: #ef4444;         /* Merah lembut */
+  --accent: #ff5252;          /* Merah terang */
+  --highlight: #fecaca;       /* Merah pastel muda */
+  --text: #fef2f2;            /* Putih ke-merah-merahan */
+  --text-dim: #ef4444;        /* Teks sedang merah */
+  --muted: #fecaca;           /* Teks redup merah muda */
+  --green: #dc2626;           /* Warna aksen utama musik (Merah) */
+  --green-light: #ef4444;     /* Warna aksen terang musik (Merah muda) */
+  --glass-border: rgba(239, 68, 68, 0.3);
+  --radius-card: 24px;
+}
+
+/* ---------- 2. Reset & dasar ---------- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0 }
+
+html, body { height: 100% }
+
+body {
+  font-family: ui-rounded, system-ui, -apple-system, "Segoe UI", Roboto, Arial,
+                "Apple Color Emoji", "Segoe UI Emoji";
+  color: var(--text);
+  background:
+    radial-gradient(1200px 800px at 20% -10%, #7f1d1d 0%, transparent 60%),
+    radial-gradient(1000px 700px at 110% 20%, #450a0a 0%, transparent 50%),
+    linear-gradient(160deg, var(--bg-start), var(--bg-end));
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 2px solid var(--highlight);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* ---------- 3. Latar: bintang twinkling ---------- */
+.stars, .stars::before, .stars::after {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(2px 2px at 20% 30%, rgba(255,255,255,.8) 50%, transparent 51%),
+    radial-gradient(1px 1px at 70% 80%, rgba(255,182,183,.7) 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 40% 60%, rgba(255,255,255,.7) 50%, transparent 51%),
+    radial-gradient(1px 1px at 90% 20%, rgba(255,192,192,.6) 50%, transparent 51%);
+  animation: twinkle 6s linear infinite;
+}
+.stars::before { filter: blur(1px); opacity: .6; animation-duration: 8s }
+.stars::after  { filter: blur(2px); opacity: .4; animation-duration: 10s }
+
+@keyframes twinkle {
+  0%, 100% { transform: translateY(0) }
+  50%      { transform: translateY(-3px) }
+}
+
+/* ---------- 4. Tata letak & tipografi ---------- */
+.container {
+  position: relative;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  overflow: auto;
+}
+
+.card {
+  position: relative;
+  width: min(720px, 92vw);
+  max-height: 96vh;
+  padding: clamp(20px, 4vw, 40px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-card);
+  background: linear-gradient(180deg, rgba(255, 182, 182, 0.15), rgba(239, 68, 68, 0.08));
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 20px 60px rgba(74, 4, 4, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  overflow-y: auto;
+}
+.card::-webkit-scrollbar { width: 6px }
+.card::-webkit-scrollbar-thumb { background: rgba(239, 68, 68, 0.3); border-radius: 99px }
+
+.page { animation: page-in .45s ease both }
+
+.title {
+  margin-bottom: 10px;
+  font-size: clamp(26px, 4.6vw, 44px);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: .5px;
+  background: linear-gradient(90deg, #ff5252, #fecaca, #ef4444);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 24px rgba(239, 68, 68, 0.3);
+}
+#page1 .title { font-size: clamp(24px, 4.5vw, 40px) }
+
+.subtitle {
+  margin-bottom: 18px;
+  font-size: clamp(16px, 2.3vw, 20px);
+  opacity: .9;
+}
+
+.message { margin-bottom: 22px; font-size: clamp(15px, 2.1vw, 18px) }
+.message p {
+  margin-bottom: 10px;
+  line-height: 1.7;
+  color: var(--text-dim);
+  animation: wish-in .5s ease both;
+}
+.message p:last-child { margin-bottom: 0 }
+
+.signature { margin-top: 10px; font-size: 14px; opacity: .75 }
+
+.cake {
+  margin-bottom: 20px;
+  font-size: 5rem;
+  animation: bounce 1s ease infinite;
+}
+.cake--alt { margin-bottom: 14px; font-size: 4.5rem; animation-duration: 1.2s }
+
+@keyframes page-in {
+  from { opacity: 0; transform: translateY(10px) }
+  to   { opacity: 1; transform: none }
+}
+@keyframes wish-in {
+  from { opacity: 0; transform: translateY(8px) }
+  to   { opacity: 1; transform: none }
+}
+@keyframes bounce {
+  0%, 100% { transform: translateY(0) }
+  50%      { transform: translateY(-15px) }
+}
+
+/* ---------- 5. Tombol & form ---------- */
+.btn {
+  appearance: none;
+  border: none;
+  cursor: pointer;
+  padding: 12px 18px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent), var(--primary));
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: .3px;
+  box-shadow: 0 10px 30px rgba(220, 38, 38, 0.4);
+  transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+}
+.btn:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 16px 36px rgba(220, 38, 38, 0.55);
+  filter: saturate(1.1);
+}
+.btn:active { transform: translateY(0) scale(.99) }
+
+.actions { display: flex; justify-content: center; margin-top: 18px }
+
+.name-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.name-input {
+  width: 100%;
+  max-width: 340px;
+  padding: 12px 20px;
+  border: 2px solid var(--highlight);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  font: inherit;
+  font-size: 1.05rem;
+  text-align: center;
+  outline: none;
+  transition: border-color .2s, box-shadow .2s;
+}
+.name-input::placeholder { color: rgba(253, 242, 248, 0.6) }
+.name-input:focus { box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.3) }
+.name-input.is-invalid {
+  border-color: var(--primary);
+  animation: shake .4s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0) }
+  25%      { transform: translateX(-6px) }
+  75%      { transform: translateX(6px) }
+}
+
+/* ---------- 6. Dekorasi ---------- */
+.balloons, .confetti, .confetti-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.confetti-layer { position: fixed; z-index: 5 }
+
+/* Balon naik dari bawah */
+.balloon {
+  position: absolute;
+  left: var(--left);
+  bottom: -140px;
+  width: 60px;
+  height: 80px;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  background:
+    radial-gradient(circle at 30% 25%, rgba(255,255,255,.8), rgba(255,255,255,0) 35%),
+    radial-gradient(circle at 70% 30%, rgba(255,255,255,.4), rgba(255,255,255,0) 45%),
+    var(--bcolor);
+  box-shadow: inset 0 -8px 20px rgba(0,0,0,.2);
+  animation: rise var(--dur) linear infinite;
+  animation-delay: var(--delay, 0s);
+  pointer-events: auto;      /* balon bisa diklik / disentuh */
+  cursor: pointer;
+  transition: filter .15s;
+}
+.balloon:hover { filter: brightness(1.15) }
+.balloon::after {
+  content: "";
+  position: absolute;
+  top: 78px;
+  left: 50%;
+  width: 2px;
+  height: 80px;
+  transform: translateX(-50%);
+  background: rgba(255,255,255,.35);
+}
+
+@keyframes rise {
+  to { transform: translateY(-120vh) rotate(6deg) }
+}
+
+/* Confetti dekoratif (CSS only, selalu aktif) */
+.confetti span {
+  position: absolute;
+  top: -20px;
+  left: var(--x);
+  width: 8px;
+  height: 14px;
+  border-radius: 2px;
+  background: var(--color);
+  animation: fall var(--fall) linear infinite;
+}
+.confetti span:nth-child(odd) { width: 10px; height: 10px; border-radius: 50% }
+
+@keyframes fall {
+  to { transform: translateY(110vh) rotate(360deg) }
+}
+
+/* Confetti hasil JS (dibuat saat kartu dibuka) */
+.confetti-piece {
+  position: absolute;
+  top: -20px;
+  border-radius: 2px;
+  animation-name: fall;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+/* ---------- 7. Pemutar musik ---------- */
+.music {
+  margin-top: 22px;
+  padding: 16px;
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  border-radius: 18px;
+  background: rgba(30, 7, 7, 0.65);
+  box-shadow: 0 16px 40px rgba(36, 4, 4, 0.5), inset 0 1px 0 rgba(255,255,255,.08);
+  text-align: left;
+}
+
+.mp-head {
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+.mp-cover {
+  flex: none;
+  width: clamp(76px, 16vw, 120px);
+  height: clamp(76px, 16vw, 120px);
+  object-fit: cover;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--green), var(--green-light));
+  box-shadow: 0 16px 40px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.25);
+}
+.mp-meta-name {
+  margin: 4px 0;
+  font-size: clamp(1.1rem, 2.4vw, 1.5rem);
+  font-weight: 900;
+}
+.mp-meta p { font-size: .82rem; color: var(--muted) }
+.mp-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  padding: 2px 9px;
+  border-radius: 99px;
+  background: var(--green);
+  color: #fff;
+  font-size: .72rem;
+  font-weight: 800;
+}
+
+.mp-toolbar { margin-bottom: 10px }
+.mp-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: none;
+  padding: 9px 16px;
+  border-radius: 99px;
+  background: #381010;
+  color: #fff;
+  font-weight: 700;
+  font-size: .85rem;
+  cursor: pointer;
+  transition: filter .15s;
+}
+.mp-btn:hover { filter: brightness(1.35) }
+.mp-btn.primary {
+  background: var(--green);
+  color: #fff;
+  box-shadow: 0 8px 22px rgba(220, 38, 38, 0.4);
+}
+
+.music-note {
+  margin: 6px 2px 0;
+  font-size: .72rem;
+  line-height: 1.5;
+  color: #fecaca;
+  opacity: 0.8;
+}
+.music-note code {
+  padding: 0 3px;
+  border-radius: 4px;
+  background: rgba(255,255,255,.1);
+  font-size: .95em;
+}
+
+/* Daftar lagu */
+.mp-list {
+  max-height: 180px;
+  margin: 0;
+  padding: 8px 0 0;
+  border-top: 1px solid rgba(239, 68, 68, 0.2);
+  list-style: none;
+  overflow-y: auto;
+}
+.mp-list::-webkit-scrollbar { width: 5px }
+.mp-list::-webkit-scrollbar-thumb { background: rgba(239, 68, 68, 0.3); border-radius: 99px }
+
+.mp-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.mp-row:hover { background: rgba(239, 68, 68, 0.12) }
+.mp-row.is-active { background: rgba(220, 38, 38, 0.2) }
+.mp-row.is-active .mp-trow { color: var(--green-light) }
+
+.mp-idx {
+  flex: none;
+  width: 20px;
+  text-align: center;
+  color: var(--muted);
+  font-size: .82rem;
+}
+.mp-row.is-playing .mp-idx { display: none }
+
+/* Equalizer beranimasi pada baris yang sedang diputar */
+.mp-eq {
+  display: none;
+  flex: none;
+  width: 20px;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 2px;
+}
+.mp-row.is-playing .mp-eq { display: flex }
+.mp-eq span {
+  width: 3px;
+  border-radius: 2px;
+  background: var(--green);
+  animation: mp-eq 1s ease-in-out infinite;
+}
+.mp-eq span:nth-child(1) { animation-delay: .1s }
+.mp-eq span:nth-child(2) { animation-delay: .35s }
+.mp-eq span:nth-child(3) { animation-delay: .6s }
+
+@keyframes mp-eq {
+  0%, 100% { height: 30% }
+  50%      { height: 100% }
+}
+
+.mp-tinfo { flex: 1; min-width: 0 }
+.mp-trow, .mp-arow {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.mp-trow { font-size: .92rem; font-weight: 700 }
+.mp-arow { font-size: .75rem; color: var(--muted) }
+.mp-dur { flex: none; color: #fecaca; opacity: 0.7; font-size: .76rem }
+.mp-dur.is-error { color: #f87171 }
+
+/* Bar pemutar */
+.mp-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 14px;
+  padding: 12px;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 14px;
+  background: rgba(23, 3, 3, 0.75);
+}
+
+.mp-now { display: flex; align-items: center; gap: 12px }
+.mp-now-meta { min-width: 0 }
+.mp-now .mp-trow { font-size: .95rem }
+.mp-now .mp-arow { font-size: .75rem }
+
+.mp-thumb {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: clamp(84px, 24vw, 120px);
+  height: clamp(84px, 24vw, 120px);
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid rgba(239, 68, 68, 0.5);
+  background: linear-gradient(135deg, var(--green), var(--green-light));
+  color: #fff;
+  font-size: 18px;
+  box-shadow: 0 8px 20px rgba(0,0,0,.4);
+  animation: mp-spin 4s linear infinite;
+  animation-play-state: paused;
+}
+.mp-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.mp-bar.is-playing .mp-thumb { animation-play-state: running }
+
+@keyframes mp-spin {
+  to { transform: rotate(360deg) }
+}
+
+.mp-btns { display: flex; align-items: center; justify-content: center; gap: 10px }
+
+.mp-ibtn {
+  display: inline-flex;
+  padding: 6px;
+  border: none;
+  background: transparent;
+  color: #fecaca;
+  font-size: 16px;
+  cursor: pointer;
+  transition: color .15s, transform .15s;
+}
+.mp-ibtn:hover { color: #fff; transform: scale(1.15) }
+.mp-ibtn.is-on { color: var(--green-light) }
+.mp-ibtn.big {
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--green);
+  color: #fff;
+  font-size: 15px;
+  box-shadow: 0 8px 22px rgba(220, 38, 38, 0.4);
+}
+.mp-ibtn.is-attention {
+  animation: mp-pulse 1.1s ease-in-out infinite;
+  box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7);
+}
+@keyframes mp-pulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7) }
+  50%      { transform: scale(1.12); box-shadow: 0 0 0 14px rgba(220, 38, 38, 0) }
+}
+
+.mp-prog { display: flex; align-items: center; gap: 10px }
+.mp-tp {
+  min-width: 32px;
+  text-align: center;
+  color: #fecaca;
+  opacity: 0.8;
+  font-size: .72rem;
+}
+.mp-track {
+  position: relative;
+  flex: 1;
+  height: 5px;
+  border-radius: 99px;
+  background: rgba(255,255,255,.16);
+  cursor: pointer;
+}
+.mp-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0;
+  border-radius: 99px;
+  background: var(--green);
+}
+.mp-knob {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #fff;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  pointer-events: none;
+}
+.mp-track:hover .mp-knob, .mp-track:focus-visible .mp-knob { opacity: 1 }
+
+.mp-extra { display: flex; align-items: center; justify-content: center; gap: 12px }
+.mp-extra input[type="range"] { width: 110px; accent-color: var(--green) }
+
+/* ---------- 8. Utilitas ---------- */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.is-hidden { display: none !important }
+
+/* Responsif kecil */
+@media (max-width: 420px) {
+  .card { border-radius: 18px }
+  .mp-cover { display: none }
+  .mp-head { justify-content: center; width: 100%; text-align: center }
+}
+
+/* Hormati pengaturan "kurangi animasi" di sistem */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+/* ============================================================
+   9. Tiup lilin
+   ============================================================ */
+.actions--row { gap: 12px; flex-wrap: wrap }
+
+.btn--ghost {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--glass-border);
+  box-shadow: none;
+}
+
+.cake-scene {
+  --blow: 0;
+  position: relative;
+  width: 220px;
+  margin: 28px auto 8px;
+  padding-top: 70px;
+}
+
+.candles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  gap: 38px;
+}
+
+.candle {
+  position: relative;
+  width: 14px;
+  height: 78px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.wax {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 14px;
+  height: 46px;
+  border-radius: 4px 4px 2px 2px;
+  background: repeating-linear-gradient(135deg, #fff 0 6px, var(--c, #f87171) 6px 12px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .35);
+}
+.wax--a { --c: #ef4444 }
+.wax--b { --c: #fb923c }
+.wax--c { --c: #fbbf24 }
+
+.wick {
+  position: absolute;
+  bottom: 46px;
+  left: 50%;
+  width: 2px;
+  height: 8px;
+  background: #3b1212;
+  transform: translateX(-50%);
+}
+
+.flame-wrap {
+  position: absolute;
+  bottom: 52px;
+  left: 50%;
+  width: 16px;
+  height: 26px;
+  margin-left: -8px;
+  transform-origin: 50% 100%;
+  transform: rotate(calc(var(--blow) * 28deg)) scaleY(calc(1 - var(--blow) * .35));
+  transition: transform .08s linear;
+}
+.flame {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50% 50% 50% 50% / 62% 62% 38% 38%;
+  background: radial-gradient(ellipse at 50% 80%, #fff7c2 0 20%, #ffd25e 45%, #ff8a3c 80%, rgba(255, 90, 60, 0) 100%);
+  box-shadow: 0 0 18px 6px rgba(255, 190, 90, .55);
+  transform-origin: 50% 100%;
+  animation: flicker .5s ease-in-out infinite alternate;
+}
+@keyframes flicker {
+  0%   { transform: scale(1, 1) skewX(0deg) }
+  50%  { transform: scale(.94, 1.06) skewX(-3deg) }
+  100% { transform: scale(1.04, .96) skewX(3deg) }
+}
+
+.smoke {
+  position: absolute;
+  bottom: 54px;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  margin-left: -5px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .45);
+  filter: blur(3px);
+  opacity: 0;
+}
+.candle.is-out .flame-wrap { display: none }
+.candle.is-out .smoke { animation: smoke-up 1.6s ease-out forwards }
+@keyframes smoke-up {
+  0%   { opacity: .8; transform: translate(0, 0) scale(.6) }
+  100% { opacity: 0;  transform: translate(8px, -60px) scale(2.4) }
+}
+
+.candle:focus-visible { outline-offset: 6px }
+
+.cake-body { position: relative; z-index: 1 }
+.tier {
+  margin: 0 auto;
+  border-radius: 12px 12px 8px 8px;
+  box-shadow: inset 0 -8px 14px rgba(0, 0, 0, .18);
+}
+.tier--top {
+  width: 150px;
+  height: 46px;
+  background:
+    radial-gradient(circle at 12px 0, #fff 0 9px, transparent 10px) 0 0 / 30px 20px repeat-x,
+    linear-gradient(#f87171, #ef4444);
+}
+.tier--bottom {
+  width: 220px;
+  height: 62px;
+  margin-top: -4px;
+  background:
+    radial-gradient(circle at 15px 0, #fff 0 11px, transparent 12px) 0 0 / 36px 24px repeat-x,
+    linear-gradient(#ef4444, #b91c1c);
+}
+.plate {
+  width: 250px;
+  height: 12px;
+  margin: 2px -15px 0;
+  border-radius: 50%;
+  background: linear-gradient(#fecaca, #b06a6a);
+  box-shadow: 0 10px 18px rgba(0, 0, 0, .35);
+}
+
+/* ============================================================
+   10. Mesin ketik
+   ============================================================ */
+.tw-rest { visibility: hidden }  /* sisa teks tetap memakan ruang -> kartu tidak "loncat" */
+.message p.is-typing .tw-typed::after {
+  content: "";
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  margin-left: 2px;
+  vertical-align: -0.12em;
+  background: var(--highlight);
+  animation: caret .7s steps(1) infinite;
+}
+@keyframes caret { 50% { opacity: 0 } }
+
+/* ============================================================
+   11. Balon pecah
+   ============================================================ */
+.pop-text {
+  position: fixed;
+  z-index: 6;
+  pointer-events: none;
+  font-weight: 900;
+  font-size: 1.1rem;
+  color: #fff;
+  text-shadow: 0 2px 10px rgba(220, 38, 38, .8);
+  white-space: nowrap;
+}
+.pop-shard {
+  position: fixed;
+  z-index: 6;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* ============================================================
+   12. Kunci PIN
+   ============================================================ */
+.pin-dots {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin: 6px 0 22px;
+}
+.pin-dot {
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--highlight);
+  border-radius: 50%;
+  transition: background .15s, transform .15s, border-color .15s;
+}
+.pin-dot.is-filled { background: var(--primary); transform: scale(1.15) }
+.pin-dots.is-wrong { animation: shake .4s ease }
+.pin-dots.is-wrong .pin-dot { border-color: #f87171; background: #f87171 }
+.pin-dots.is-ok .pin-dot { border-color: #34d399; background: #34d399 }
+
+.keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 64px);
+  gap: 12px;
+  justify-content: center;
+}
+.key {
+  width: 64px;
+  height: 64px;
+  border: 1px solid var(--glass-border);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--text);
+  font: inherit;
+  font-size: 1.4rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .15s, transform .1s;
+}
+.key:hover { background: rgba(239, 68, 68, 0.25) }
+.key:active { transform: scale(.92); background: rgba(239, 68, 68, 0.4) }
+.key--back { font-size: 1.2rem }
+
+.key--ok {
+  background: var(--green);
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 8px 22px rgba(220, 38, 38, 0.4);
+}
+.key--ok:hover { background: var(--green-light) }
