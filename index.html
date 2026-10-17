@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Kartu ucapan ulang tahun interaktif: tiup lilin, ucapan mesin ketik, balon yang bisa dipecahkan, dan pemutar musik." />
+  <title>Kartu Ucapan Ulang Tahun</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="stars" aria-hidden="true"></div>
+  <div class="confetti-layer" id="confettiLayer" aria-hidden="true"></div>
+
+  <main class="container">
+    <article class="card" aria-labelledby="cardTitle">
+
+      <!-- Dekorasi: balon & confetti dibuat oleh script.js -->
+      <div class="balloons" id="balloons" aria-hidden="true"></div>
+      <div class="confetti" id="confettiBg" aria-hidden="true"></div>
+
+      <!-- ===== Halaman 0: kunci PIN ===== -->
+      <section class="page" id="pagePin" aria-labelledby="pinTitle">
+        <div class="cake" id="pinIcon" aria-hidden="true">🔒</div>
+        <h1 class="title" id="pinTitle">Kartu Ini Dikunci</h1>
+        <p class="subtitle" id="pinHint">Masukkan PIN untuk membukanya</p>
+
+        <div class="pin-dots" id="pinDots" role="status" aria-live="polite"></div>
+
+        <div class="keypad" id="keypad">
+          <button type="button" class="key" data-key="1">1</button>
+          <button type="button" class="key" data-key="2">2</button>
+          <button type="button" class="key" data-key="3">3</button>
+          <button type="button" class="key" data-key="4">4</button>
+          <button type="button" class="key" data-key="5">5</button>
+          <button type="button" class="key" data-key="6">6</button>
+          <button type="button" class="key" data-key="7">7</button>
+          <button type="button" class="key" data-key="8">8</button>
+          <button type="button" class="key" data-key="9">9</button>
+          <button type="button" class="key key--ok" data-key="ok" aria-label="Kirim PIN">✓</button>
+          <button type="button" class="key" data-key="0">0</button>
+          <button type="button" class="key key--back" data-key="back" aria-label="Hapus">⌫</button>
+        </div>
+      </section>
+
+      <!-- ===== Halaman 1: input nama ===== -->
+      <section class="page is-hidden" id="page1">
+        <div class="cake" aria-hidden="true">🎂</div>
+        <h1 class="title" id="cardTitle">Siapa yang Berulang Tahun?</h1>
+        <p class="subtitle">Tulis namamu lalu tekan tombol kirim untuk membuka kejutan 🎉</p>
+
+        <form class="name-form" id="nameForm" novalidate>
+          <label class="sr-only" for="nameInput">Nama yang berulang tahun</label>
+          <input
+            class="name-input"
+            type="text"
+            id="nameInput"
+            placeholder="Ketik namamu di sini..."
+            maxlength="40"
+            autocomplete="off"
+          />
+          <button class="btn" type="submit">Kirim 🎉</button>
+        </form>
+      </section>
+
+      <!-- ===== Halaman 2: tiup lilin ===== -->
+      <section class="page is-hidden" id="pageCandle">
+        <h2 class="title" id="candleTitle">Tiup Lilinnya!</h2>
+        <p class="subtitle" id="candleHint">Buat permohonan dulu, lalu tiup lilinnya 🕯️</p>
+
+        <div class="cake-scene" id="cakeScene">
+          <div class="candles">
+            <button class="candle" type="button" aria-label="Tiup lilin 1">
+              <span class="flame-wrap"><span class="flame"></span></span>
+              <span class="smoke"></span><span class="wick"></span><span class="wax wax--a"></span>
+            </button>
+            <button class="candle" type="button" aria-label="Tiup lilin 2">
+              <span class="flame-wrap"><span class="flame"></span></span>
+              <span class="smoke"></span><span class="wick"></span><span class="wax wax--b"></span>
+            </button>
+            <button class="candle" type="button" aria-label="Tiup lilin 3">
+              <span class="flame-wrap"><span class="flame"></span></span>
+              <span class="smoke"></span><span class="wick"></span><span class="wax wax--c"></span>
+            </button>
+          </div>
+          <div class="cake-body" aria-hidden="true">
+            <div class="tier tier--top"></div>
+            <div class="tier tier--bottom"></div>
+            <div class="plate"></div>
+          </div>
+        </div>
+
+        <div class="actions actions--row">
+          <button class="btn" type="button" id="micBtn">🎤 Tiup lewat mikrofon</button>
+          <button class="btn btn--ghost" type="button" id="blowBtn">💨 Tiup sekali</button>
+        </div>
+      </section>
+
+      <!-- ===== Halaman 3: ucapan + pemutar musik ===== -->
+      <section class="page is-hidden" id="page2">
+        <div class="cake cake--alt" aria-hidden="true">🎈</div>
+        <h2 class="title" id="greeting"></h2>
+        <div class="message" id="wishesList" title="Klik untuk melewati animasi ketik"></div>
+
+        <section class="music" aria-label="Pemutar musik">
+          <header class="mp-head">
+            <img class="mp-cover" src="labalaba.jpeg" alt="Foto album" />
+            <div class="mp-meta">
+              <span class="mp-badge">▶ Playlist</span>
+              <p class="mp-meta-name">Musik &amp; Lagu</p>
+              <p id="mpCount">Memuat daftar lagu…</p>
+            </div>
+          </header>
+
+          <div class="mp-toolbar">
+            <button class="mp-btn primary" type="button" id="mpPlayAll">▶ Putar Semua</button>
+          </div>
+
+          <ul class="mp-list" id="mpList"></ul>
+
+          <p class="music-note">
+            Untuk menambah lagu: simpan file <code>.mp3</code> di folder yang sama,
+            lalu daftarkan di array <code>PLAYLIST</code> pada <code>script.js</code>.
+          </p>
+
+          <div class="mp-bar" id="mpBar">
+            <div class="mp-now">
+              <div class="mp-thumb" aria-hidden="true"><img src="spiderman.jpeg" alt="" /></div>
+              <div class="mp-now-meta">
+                <div class="mp-trow" id="mpCurTitle">Pilih lagu</div>
+                <div class="mp-arow" id="mpCurArtist">—</div>
+              </div>
+            </div>
+
+            <div class="mp-btns">
+              <button class="mp-ibtn" type="button" id="mpShuffleBtn" title="Acak" aria-label="Acak" aria-pressed="false">🔀</button>
+              <button class="mp-ibtn" type="button" id="mpPrev" title="Sebelumnya" aria-label="Lagu sebelumnya">⏮</button>
+              <button class="mp-ibtn big" type="button" id="mpPlay" title="Putar/Jeda" aria-label="Putar">▶</button>
+              <button class="mp-ibtn" type="button" id="mpNext" title="Berikutnya" aria-label="Lagu berikutnya">⏭</button>
+              <button class="mp-ibtn" type="button" id="mpRepeatBtn" title="Ulangi daftar" aria-label="Ulangi daftar">🔁</button>
+            </div>
+
+            <div class="mp-prog">
+              <span class="mp-tp" id="mpCur">0:00</span>
+              <div class="mp-track" id="mpTrackbar" role="slider" tabindex="0"
+                   aria-label="Posisi pemutaran" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                <div class="mp-fill" id="mpFill"></div>
+                <div class="mp-knob" id="mpKnob"></div>
+              </div>
+              <span class="mp-tp" id="mpDur">0:00</span>
+            </div>
+
+            <div class="mp-extra">
+              <button class="mp-ibtn" type="button" id="mpMute" title="Bisukan" aria-label="Bisukan">🔊</button>
+              <input type="range" id="mpVol" min="0" max="100" value="100" aria-label="Volume" />
+            </div>
+          </div>
+        </section>
+
+        <div class="actions">
+          <button class="btn" type="button" id="restartBtn">Ulangi 🔄</button>
+        </div>
+      </section>
+
+      <p class="signature">-Ardhian Rayandra</p>
+    </article>
+  </main>
+
+  <script src="script.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,1118 @@
+/* ============================================================
+   Kartu Ucapan Ulang Tahun — style.css
+   1 Token · 2 Reset & dasar · 3 Latar · 4 Kartu & tipografi
+   5 Tombol & form · 6 Dekorasi · 7 Pemutar musik · 8 Utilitas
+   ============================================================ */
+
+/* ---------- 1. Token ---------- */
+:root {
+  --bg-start: #2e0821;        /* Pink gelap pekat */
+  --bg-end: #170310;          /* Deep plum/blackberry */
+  --primary: #f472b6;         /* Pink pastel lembut */
+  --accent: #ff85a2;          /* Pink fuchsia terang */
+  --highlight: #fbcfe8;       /* Pink pastel muda / krem pink */
+  --text: #fdf2f8;            /* Putih ke-pink-pinkan */
+  --text-dim: #f472b6;        /* Teks sedang pink pastel */
+  --muted: #fbcfe8;           /* Teks redup pink muda */
+  --green: #ec4899;           /* Warna aksen utama musik (Hot Pink) */
+  --green-light: #f472b6;     /* Warna aksen terang musik (Soft Pink) */
+  --glass-border: rgba(244, 114, 182, 0.3);
+  --radius-card: 24px;
+}
+
+/* ---------- 2. Reset & dasar ---------- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0 }
+
+html, body { height: 100% }
+
+body {
+  font-family: ui-rounded, system-ui, -apple-system, "Segoe UI", Roboto, Arial,
+                "Apple Color Emoji", "Segoe UI Emoji";
+  color: var(--text);
+  background:
+    radial-gradient(1200px 800px at 20% -10%, #701a75 0%, transparent 60%),
+    radial-gradient(1000px 700px at 110% 20%, #500724 0%, transparent 50%),
+    linear-gradient(160deg, var(--bg-start), var(--bg-end));
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 2px solid var(--highlight);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* ---------- 3. Latar: bintang twinkling ---------- */
+.stars, .stars::before, .stars::after {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(2px 2px at 20% 30%, rgba(255,255,255,.8) 50%, transparent 51%),
+    radial-gradient(1px 1px at 70% 80%, rgba(255,182,193,.7) 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 40% 60%, rgba(255,255,255,.7) 50%, transparent 51%),
+    radial-gradient(1px 1px at 90% 20%, rgba(255,192,203,.6) 50%, transparent 51%);
+  animation: twinkle 6s linear infinite;
+}
+.stars::before { filter: blur(1px); opacity: .6; animation-duration: 8s }
+.stars::after  { filter: blur(2px); opacity: .4; animation-duration: 10s }
+
+@keyframes twinkle {
+  0%, 100% { transform: translateY(0) }
+  50%      { transform: translateY(-3px) }
+}
+
+/* ---------- 4. Tata letak & tipografi ---------- */
+.container {
+  position: relative;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  overflow: auto;
+}
+
+.card {
+  position: relative;
+  width: min(720px, 92vw);
+  max-height: 96vh;
+  padding: clamp(20px, 4vw, 40px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-card);
+  background: linear-gradient(180deg, rgba(255, 182, 193, 0.15), rgba(244, 114, 182, 0.08));
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 20px 60px rgba(74, 4, 38, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  overflow-y: auto;
+}
+.card::-webkit-scrollbar { width: 6px }
+.card::-webkit-scrollbar-thumb { background: rgba(244, 114, 182, 0.3); border-radius: 99px }
+
+.page { animation: page-in .45s ease both }
+
+.title {
+  margin-bottom: 10px;
+  font-size: clamp(26px, 4.6vw, 44px);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: .5px;
+  background: linear-gradient(90deg, #ff85a2, #fbcfe8, #f472b6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 24px rgba(244, 114, 182, 0.3);
+}
+#page1 .title { font-size: clamp(24px, 4.5vw, 40px) }
+
+.subtitle {
+  margin-bottom: 18px;
+  font-size: clamp(16px, 2.3vw, 20px);
+  opacity: .9;
+}
+
+.message { margin-bottom: 22px; font-size: clamp(15px, 2.1vw, 18px) }
+.message p {
+  margin-bottom: 10px;
+  line-height: 1.7;
+  color: var(--text-dim);
+  animation: wish-in .5s ease both;
+}
+.message p:last-child { margin-bottom: 0 }
+
+.signature { margin-top: 10px; font-size: 14px; opacity: .75 }
+
+.cake {
+  margin-bottom: 20px;
+  font-size: 5rem;
+  animation: bounce 1s ease infinite;
+}
+.cake--alt { margin-bottom: 14px; font-size: 4.5rem; animation-duration: 1.2s }
+
+@keyframes page-in {
+  from { opacity: 0; transform: translateY(10px) }
+  to   { opacity: 1; transform: none }
+}
+@keyframes wish-in {
+  from { opacity: 0; transform: translateY(8px) }
+  to   { opacity: 1; transform: none }
+}
+@keyframes bounce {
+  0%, 100% { transform: translateY(0) }
+  50%      { transform: translateY(-15px) }
+}
+
+/* ---------- 5. Tombol & form ---------- */
+.btn {
+  appearance: none;
+  border: none;
+  cursor: pointer;
+  padding: 12px 18px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent), var(--primary));
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: .3px;
+  box-shadow: 0 10px 30px rgba(236, 72, 153, 0.4);
+  transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+}
+.btn:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 16px 36px rgba(236, 72, 153, 0.55);
+  filter: saturate(1.1);
+}
+.btn:active { transform: translateY(0) scale(.99) }
+
+.actions { display: flex; justify-content: center; margin-top: 18px }
+
+.name-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.name-input {
+  width: 100%;
+  max-width: 340px;
+  padding: 12px 20px;
+  border: 2px solid var(--highlight);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  font: inherit;
+  font-size: 1.05rem;
+  text-align: center;
+  outline: none;
+  transition: border-color .2s, box-shadow .2s;
+}
+.name-input::placeholder { color: rgba(253, 242, 248, 0.6) }
+.name-input:focus { box-shadow: 0 0 0 4px rgba(244, 114, 182, 0.3) }
+.name-input.is-invalid {
+  border-color: var(--primary);
+  animation: shake .4s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0) }
+  25%      { transform: translateX(-6px) }
+  75%      { transform: translateX(6px) }
+}
+
+/* ---------- 6. Dekorasi ---------- */
+.balloons, .confetti, .confetti-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.confetti-layer { position: fixed; z-index: 5 }
+
+/* Balon naik dari bawah */
+.balloon {
+  position: absolute;
+  left: var(--left);
+  bottom: -140px;
+  width: 60px;
+  height: 80px;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  background:
+    radial-gradient(circle at 30% 25%, rgba(255,255,255,.8), rgba(255,255,255,0) 35%),
+    radial-gradient(circle at 70% 30%, rgba(255,255,255,.4), rgba(255,255,255,0) 45%),
+    var(--bcolor);
+  box-shadow: inset 0 -8px 20px rgba(0,0,0,.2);
+  animation: rise var(--dur) linear infinite;
+  animation-delay: var(--delay, 0s);
+  pointer-events: auto;      /* balon bisa diklik / disentuh */
+  cursor: pointer;
+  transition: filter .15s;
+}
+.balloon:hover { filter: brightness(1.15) }
+.balloon::after {
+  content: "";
+  position: absolute;
+  top: 78px;
+  left: 50%;
+  width: 2px;
+  height: 80px;
+  transform: translateX(-50%);
+  background: rgba(255,255,255,.35);
+}
+
+@keyframes rise {
+  to { transform: translateY(-120vh) rotate(6deg) }
+}
+
+/* Confetti dekoratif (CSS only, selalu aktif) */
+.confetti span {
+  position: absolute;
+  top: -20px;
+  left: var(--x);
+  width: 8px;
+  height: 14px;
+  border-radius: 2px;
+  background: var(--color);
+  animation: fall var(--fall) linear infinite;
+}
+.confetti span:nth-child(odd) { width: 10px; height: 10px; border-radius: 50% }
+
+@keyframes fall {
+  to { transform: translateY(110vh) rotate(360deg) }
+}
+
+/* Confetti hasil JS (dibuat saat kartu dibuka) */
+.confetti-piece {
+  position: absolute;
+  top: -20px;
+  border-radius: 2px;
+  animation-name: fall;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+/* ---------- 7. Pemutar musik ---------- */
+.music {
+  margin-top: 22px;
+  padding: 16px;
+  border: 1px solid rgba(244, 114, 182, 0.35);
+  border-radius: 18px;
+  background: rgba(30, 7, 22, 0.65);
+  box-shadow: 0 16px 40px rgba(36, 4, 20, 0.5), inset 0 1px 0 rgba(255,255,255,.08);
+  text-align: left;
+}
+
+.mp-head {
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+.mp-cover {
+  flex: none;
+  width: clamp(76px, 16vw, 120px);
+  height: clamp(76px, 16vw, 120px);
+  object-fit: cover;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--green), var(--green-light));
+  box-shadow: 0 16px 40px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.25);
+}
+.mp-meta-name {
+  margin: 4px 0;
+  font-size: clamp(1.1rem, 2.4vw, 1.5rem);
+  font-weight: 900;
+}
+.mp-meta p { font-size: .82rem; color: var(--muted) }
+.mp-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  padding: 2px 9px;
+  border-radius: 99px;
+  background: var(--green);
+  color: #fff;
+  font-size: .72rem;
+  font-weight: 800;
+}
+
+.mp-toolbar { margin-bottom: 10px }
+.mp-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: none;
+  padding: 9px 16px;
+  border-radius: 99px;
+  background: #381028;
+  color: #fff;
+  font-weight: 700;
+  font-size: .85rem;
+  cursor: pointer;
+  transition: filter .15s;
+}
+.mp-btn:hover { filter: brightness(1.35) }
+.mp-btn.primary {
+  background: var(--green);
+  color: #fff;
+  box-shadow: 0 8px 22px rgba(236, 72, 153, 0.4);
+}
+
+.music-note {
+  margin: 6px 2px 0;
+  font-size: .72rem;
+  line-height: 1.5;
+  color: #fbcfe8;
+  opacity: 0.8;
+}
+.music-note code {
+  padding: 0 3px;
+  border-radius: 4px;
+  background: rgba(255,255,255,.1);
+  font-size: .95em;
+}
+
+/* Daftar lagu */
+.mp-list {
+  max-height: 180px;
+  margin: 0;
+  padding: 8px 0 0;
+  border-top: 1px solid rgba(244, 114, 182, 0.2);
+  list-style: none;
+  overflow-y: auto;
+}
+.mp-list::-webkit-scrollbar { width: 5px }
+.mp-list::-webkit-scrollbar-thumb { background: rgba(244, 114, 182, 0.3); border-radius: 99px }
+
+.mp-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.mp-row:hover { background: rgba(244, 114, 182, 0.12) }
+.mp-row.is-active { background: rgba(236, 72, 153, 0.2) }
+.mp-row.is-active .mp-trow { color: var(--green-light) }
+
+.mp-idx {
+  flex: none;
+  width: 20px;
+  text-align: center;
+  color: var(--muted);
+  font-size: .82rem;
+}
+.mp-row.is-playing .mp-idx { display: none }
+
+/* Equalizer beranimasi pada baris yang sedang diputar */
+.mp-eq {
+  display: none;
+  flex: none;
+  width: 20px;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 2px;
+}
+.mp-row.is-playing .mp-eq { display: flex }
+.mp-eq span {
+  width: 3px;
+  border-radius: 2px;
+  background: var(--green);
+  animation: mp-eq 1s ease-in-out infinite;
+}
+.mp-eq span:nth-child(1) { animation-delay: .1s }
+.mp-eq span:nth-child(2) { animation-delay: .35s }
+.mp-eq span:nth-child(3) { animation-delay: .6s }
+
+@keyframes mp-eq {
+  0%, 100% { height: 30% }
+  50%      { height: 100% }
+}
+
+.mp-tinfo { flex: 1; min-width: 0 }
+.mp-trow, .mp-arow {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.mp-trow { font-size: .92rem; font-weight: 700 }
+.mp-arow { font-size: .75rem; color: var(--muted) }
+.mp-dur { flex: none; color: #fbcfe8; opacity: 0.7; font-size: .76rem }
+.mp-dur.is-error { color: #f87171 }
+
+/* Bar pemutar */
+.mp-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 14px;
+  padding: 12px;
+  border: 1px solid rgba(244, 114, 182, 0.2);
+  border-radius: 14px;
+  background: rgba(23, 3, 16, 0.75);
+}
+
+.mp-now { display: flex; align-items: center; gap: 12px }
+.mp-now-meta { min-width: 0 }
+.mp-now .mp-trow { font-size: .95rem }
+.mp-now .mp-arow { font-size: .75rem }
+
+.mp-thumb {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: clamp(84px, 24vw, 120px);
+  height: clamp(84px, 24vw, 120px);
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid rgba(244, 114, 182, 0.5);
+  background: linear-gradient(135deg, var(--green), var(--green-light));
+  color: #fff;
+  font-size: 18px;
+  box-shadow: 0 8px 20px rgba(0,0,0,.4);
+  animation: mp-spin 4s linear infinite;
+  animation-play-state: paused;
+}
+.mp-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.mp-bar.is-playing .mp-thumb { animation-play-state: running }
+
+@keyframes mp-spin {
+  to { transform: rotate(360deg) }
+}
+
+.mp-btns { display: flex; align-items: center; justify-content: center; gap: 10px }
+
+.mp-ibtn {
+  display: inline-flex;
+  padding: 6px;
+  border: none;
+  background: transparent;
+  color: #fbcfe8;
+  font-size: 16px;
+  cursor: pointer;
+  transition: color .15s, transform .15s;
+}
+.mp-ibtn:hover { color: #fff; transform: scale(1.15) }
+.mp-ibtn.is-on { color: var(--green-light) }
+.mp-ibtn.big {
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--green);
+  color: #fff;
+  font-size: 15px;
+  box-shadow: 0 8px 22px rgba(236, 72, 153, 0.4);
+}
+.mp-ibtn.is-attention {
+  animation: mp-pulse 1.1s ease-in-out infinite;
+  box-shadow: 0 0 0 0 rgba(236, 72, 153, 0.7);
+}
+@keyframes mp-pulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(236, 72, 153, 0.7) }
+  50%      { transform: scale(1.12); box-shadow: 0 0 0 14px rgba(236, 72, 153, 0) }
+}
+
+.mp-prog { display: flex; align-items: center; gap: 10px }
+.mp-tp {
+  min-width: 32px;
+  text-align: center;
+  color: #fbcfe8;
+  opacity: 0.8;
+  font-size: .72rem;
+}
+.mp-track {
+  position: relative;
+  flex: 1;
+  height: 5px;
+  border-radius: 99px;
+  background: rgba(255,255,255,.16);
+  cursor: pointer;
+}
+.mp-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0;
+  border-radius: 99px;
+  background: var(--green);
+}
+.mp-knob {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #fff;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  pointer-events: none;
+}
+.mp-track:hover .mp-knob, .mp-track:focus-visible .mp-knob { opacity: 1 }
+
+.mp-extra { display: flex; align-items: center; justify-content: center; gap: 12px }
+.mp-extra input[type="range"] { width: 110px; accent-color: var(--green) }
+
+/* ---------- 8. Utilitas ---------- */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.is-hidden { display: none !important }
+
+/* Responsif kecil */
+@media (max-width: 420px) {
+  .card { border-radius: 18px }
+  .mp-head {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* Hormati pengaturan "kurangi animasi" di sistem */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+/* ============================================================
+   9. Tiup lilin
+   ============================================================ */
+.actions--row { gap: 12px; flex-wrap: wrap }
+
+.btn--ghost {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--glass-border);
+  box-shadow: none;
+}
+
+.cake-scene {
+  --blow: 0;
+  position: relative;
+  width: 220px;
+  margin: 28px auto 8px;
+  padding-top: 70px;
+}
+
+.candles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  gap: 38px;
+}
+
+.candle {
+  position: relative;
+  width: 14px;
+  height: 78px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.wax {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 14px;
+  height: 46px;
+  border-radius: 4px 4px 2px 2px;
+  background: repeating-linear-gradient(135deg, #fff 0 6px, var(--c, #f9a8d4) 6px 12px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .35);
+}
+.wax--a { --c: #f472b6 }
+.wax--b { --c: #60a5fa }
+.wax--c { --c: #fbbf24 }
+
+.wick {
+  position: absolute;
+  bottom: 46px;
+  left: 50%;
+  width: 2px;
+  height: 8px;
+  background: #3b1230;
+  transform: translateX(-50%);
+}
+
+.flame-wrap {
+  position: absolute;
+  bottom: 52px;
+  left: 50%;
+  width: 16px;
+  height: 26px;
+  margin-left: -8px;
+  transform-origin: 50% 100%;
+  transform: rotate(calc(var(--blow) * 28deg)) scaleY(calc(1 - var(--blow) * .35));
+  transition: transform .08s linear;
+}
+.flame {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50% 50% 50% 50% / 62% 62% 38% 38%;
+  background: radial-gradient(ellipse at 50% 80%, #fff7c2 0 20%, #ffd25e 45%, #ff8a3c 80%, rgba(255, 90, 60, 0) 100%);
+  box-shadow: 0 0 18px 6px rgba(255, 190, 90, .55);
+  transform-origin: 50% 100%;
+  animation: flicker .5s ease-in-out infinite alternate;
+}
+@keyframes flicker {
+  0%   { transform: scale(1, 1) skewX(0deg) }
+  50%  { transform: scale(.94, 1.06) skewX(-3deg) }
+  100% { transform: scale(1.04, .96) skewX(3deg) }
+}
+
+.smoke {
+  position: absolute;
+  bottom: 54px;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  margin-left: -5px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .45);
+  filter: blur(3px);
+  opacity: 0;
+}
+.candle.is-out .flame-wrap { display: none }
+.candle.is-out .smoke { animation: smoke-up 1.6s ease-out forwards }
+@keyframes smoke-up {
+  0%   { opacity: .8; transform: translate(0, 0) scale(.6) }
+  100% { opacity: 0;  transform: translate(8px, -60px) scale(2.4) }
+}
+
+.candle:focus-visible { outline-offset: 6px }
+
+.cake-body { position: relative; z-index: 1 }
+.tier {
+  margin: 0 auto;
+  border-radius: 12px 12px 8px 8px;
+  box-shadow: inset 0 -8px 14px rgba(0, 0, 0, .18);
+}
+.tier--top {
+  width: 150px;
+  height: 46px;
+  background:
+    radial-gradient(circle at 12px 0, #fff 0 9px, transparent 10px) 0 0 / 30px 20px repeat-x,
+    linear-gradient(#f9a8d4, #f472b6);
+}
+.tier--bottom {
+  width: 220px;
+  height: 62px;
+  margin-top: -4px;
+  background:
+    radial-gradient(circle at 15px 0, #fff 0 11px, transparent 12px) 0 0 / 36px 24px repeat-x,
+    linear-gradient(#f472b6, #db2777);
+}
+.plate {
+  width: 250px;
+  height: 12px;
+  margin: 2px -15px 0;
+  border-radius: 50%;
+  background: linear-gradient(#fbcfe8, #be7a9c);
+  box-shadow: 0 10px 18px rgba(0, 0, 0, .35);
+}
+
+/* ============================================================
+   10. Mesin ketik
+   ============================================================ */
+.tw-rest { visibility: hidden }  /* sisa teks tetap memakan ruang -> kartu tidak "loncat" */
+.message p.is-typing .tw-typed::after {
+  content: "";
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  margin-left: 2px;
+  vertical-align: -0.12em;
+  background: var(--highlight);
+  animation: caret .7s steps(1) infinite;
+}
+@keyframes caret { 50% { opacity: 0 } }
+
+/* ============================================================
+   11. Balon pecah
+   ============================================================ */
+.pop-text {
+  position: fixed;
+  z-index: 6;
+  pointer-events: none;
+  font-weight: 900;
+  font-size: 1.1rem;
+  color: #fff;
+  text-shadow: 0 2px 10px rgba(236, 72, 153, .8);
+  white-space: nowrap;
+}
+.pop-shard {
+  position: fixed;
+  z-index: 6;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+
+/* ============================================================
+   12. Kunci PIN
+   ============================================================ */
+.pin-dots {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin: 6px 0 22px;
+}
+.pin-dot {
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--highlight);
+  border-radius: 50%;
+  transition: background .15s, transform .15s, border-color .15s;
+}
+.pin-dot.is-filled { background: var(--primary); transform: scale(1.15) }
+.pin-dots.is-wrong { animation: shake .4s ease }
+.pin-dots.is-wrong .pin-dot { border-color: #f87171; background: #f87171 }
+.pin-dots.is-ok .pin-dot { border-color: #34d399; background: #34d399 }
+
+.keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 64px);
+  gap: 12px;
+  justify-content: center;
+}
+.key {
+  width: 64px;
+  height: 64px;
+  border: 1px solid var(--glass-border);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--text);
+  font: inherit;
+  font-size: 1.4rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .15s, transform .1s;
+}
+.key:hover { background: rgba(244, 114, 182, 0.25) }
+.key:active { transform: scale(.92); background: rgba(244, 114, 182, 0.4) }
+.key--back { font-size: 1.2rem }
+.key--ok {
+  background: var(--green);
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 8px 22px rgba(236, 72, 153, 0.4);
+}
+.key--ok:hover { background: var(--green-light) }
+
+/* ============================================================
+   13. Tombol gaya Spotify
+   (taruh di paling akhir supaya menimpa gaya tombol sebelumnya)
+   ============================================================ */
+:root {
+  --sp-accent: #f472b6;        /* warna aksen; untuk hijau Spotify: #1ed760 */
+  --sp-accent-hover: #f9a8d4;  /* untuk hijau Spotify: #3be477 */
+  --sp-on-accent: #170310;     /* teks di atas aksen; untuk hijau Spotify: #000 */
+  --sp-surface: #2a2a2a;
+  --sp-surface-hover: #3a3a3a;
+  --sp-gray: #b3b3b3;
+}
+
+/* Tombol utama: pil solid, teks gelap, membesar sedikit saat disorot */
+.btn {
+  padding: 14px 32px;
+  border-radius: 500px;
+  background: var(--sp-accent);
+  color: var(--sp-on-accent);
+  font-size: .95rem;
+  font-weight: 700;
+  letter-spacing: .2px;
+  box-shadow: none;
+  transition: transform .1s ease, background-color .15s ease;
+}
+.btn:hover {
+  transform: scale(1.04);
+  background: var(--sp-accent-hover);
+  box-shadow: none;
+  filter: none;
+}
+.btn:active { transform: scale(.98); background: var(--sp-accent) }
+.btn:disabled { opacity: .5; cursor: not-allowed; transform: none }
+
+/* Tombol sekunder: pil dengan garis tepi */
+.btn--ghost {
+  background: transparent;
+  color: #fff;
+  border: 1px solid #878787;
+}
+.btn--ghost:hover { background: transparent; border-color: #fff }
+.btn--ghost:active { border-color: var(--sp-gray) }
+
+/* Keypad PIN: lingkaran gelap, ✓ berwarna aksen */
+.key {
+  border: none;
+  background: var(--sp-surface);
+  color: #fff;
+  transition: background-color .15s ease, transform .1s ease;
+}
+.key:hover { background: var(--sp-surface-hover); transform: scale(1.06) }
+.key:active { background: #1a1a1a; transform: scale(.95) }
+.key--back { background: transparent; color: var(--sp-gray) }
+.key--back:hover { background: var(--sp-surface); color: #fff }
+.key--ok { background: var(--sp-accent); color: var(--sp-on-accent); box-shadow: none }
+.key--ok:hover { background: var(--sp-accent-hover) }
+
+/* Kolom nama: gelap, garis putih saat fokus (seperti kolom cari Spotify) */
+.name-input {
+  border: 2px solid transparent;
+  background: #242424;
+}
+.name-input:hover { border-color: #3a3a3a }
+.name-input:focus { border-color: #fff; box-shadow: none }
+
+/* Pemutar musik */
+.mp-btn {
+  padding: 9px 18px;
+  border: 1px solid #878787;
+  background: transparent;
+  color: #fff;
+  transition: transform .1s ease, border-color .15s ease;
+}
+.mp-btn:hover { filter: none; border-color: #fff; transform: scale(1.04) }
+.mp-btn.primary {
+  padding: 11px 26px;
+  border-color: transparent;
+  background: var(--sp-accent);
+  color: var(--sp-on-accent);
+  box-shadow: none;
+}
+.mp-btn.primary:hover { background: var(--sp-accent-hover) }
+
+.mp-ibtn {
+  position: relative;
+  color: var(--sp-gray);
+  transition: color .15s ease, transform .1s ease;
+}
+.mp-ibtn:hover { color: #fff; transform: scale(1.1) }
+.mp-ibtn.is-on { color: var(--sp-accent) }
+.mp-ibtn.is-on::after {            /* titik kecil penanda "aktif" */
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--sp-accent);
+  transform: translateX(-50%);
+}
+
+/* Tombol putar/jeda: lingkaran putih, ikon hitam */
+.mp-ibtn.big {
+  width: 44px;
+  height: 44px;
+  background: #fff;
+  color: #000;
+  box-shadow: none;
+}
+.mp-ibtn.big:hover { background: #fff; color: #000; transform: scale(1.06) }
+.mp-ibtn.big:active { transform: scale(.97) }
+
+/* Bar progres: putih, berubah jadi aksen saat disorot */
+.mp-fill { background: #fff }
+.mp-track:hover .mp-fill { background: var(--sp-accent) }
+.mp-extra input[type="range"] { accent-color: #fff }
+.mp-extra input[type="range"]:hover { accent-color: var(--sp-accent) }
+
+/* ============================================================
+   14. Tombol gradien + kilau + glow
+   (taruh di paling akhir; menimpa bagian 13)
+   ============================================================ */
+:root {
+  --g-main: linear-gradient(135deg, #ff85a2 0%, #ec4899 50%, #a855f7 100%);
+  --g-ok: linear-gradient(135deg, #6ee7b7, #10b981);
+  --glow: 0 10px 28px rgba(236, 72, 153, .45);
+}
+
+/* ---- Tombol utama: gradien, kilau berjalan, melayang saat disorot ---- */
+.btn,
+.mp-btn.primary {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  border: none;
+  background: var(--g-main);
+  background-size: 160% 160%;
+  background-position: 0% 50%;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, .25);
+  box-shadow: var(--glow),
+              inset 0 1px 0 rgba(255, 255, 255, .45),
+              inset 0 -3px 6px rgba(120, 0, 80, .25);
+  transition: transform .18s cubic-bezier(.2, .8, .3, 1.3), box-shadow .2s ease, background-position .45s ease;
+}
+.btn::before,
+.mp-btn.primary::before {          /* kilau cahaya yang menyapu tombol */
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -75%;
+  z-index: -1;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, .55), transparent);
+  transform: skewX(-20deg);
+  pointer-events: none;
+  animation: btn-idle-shine 4.5s ease-in-out 1.2s infinite;
+}
+@keyframes btn-idle-shine {
+  0%        { left: -75% }
+  22%, 100% { left: 130% }
+}
+@keyframes btn-shine { to { left: 130% } }
+
+.btn:hover,
+.mp-btn.primary:hover {
+  background: var(--g-main);
+  background-size: 160% 160%;
+  background-position: 100% 50%;
+  transform: translateY(-3px) scale(1.04);
+  filter: none;
+  box-shadow: 0 16px 36px rgba(236, 72, 153, .6),
+              inset 0 1px 0 rgba(255, 255, 255, .55),
+              inset 0 -3px 6px rgba(120, 0, 80, .25);
+}
+.btn:hover::before,
+.mp-btn.primary:hover::before { animation: btn-shine .8s ease }
+
+.btn:active,
+.mp-btn.primary:active {
+  background: var(--g-main);
+  background-size: 160% 160%;
+  background-position: 100% 50%;
+  transform: translateY(1px) scale(.96);
+  box-shadow: 0 4px 12px rgba(236, 72, 153, .4), inset 0 2px 6px rgba(120, 0, 80, .35);
+}
+.btn:disabled { opacity: .5; transform: none; box-shadow: none }
+.btn:disabled::before { animation: none }
+
+/* ---- Tombol sekunder: kaca bening dengan tepi bercahaya ---- */
+.btn--ghost {
+  background: rgba(255, 255, 255, .08);
+  border: 1px solid rgba(251, 207, 232, .5);
+  color: #fff;
+  text-shadow: none;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+.btn--ghost::before { display: none }
+.btn--ghost:hover {
+  background: rgba(244, 114, 182, .22);
+  border-color: #fbcfe8;
+  box-shadow: 0 10px 24px rgba(236, 72, 153, .35), inset 0 1px 0 rgba(255, 255, 255, .3);
+}
+.btn--ghost:active { background: rgba(244, 114, 182, .32); box-shadow: inset 0 2px 6px rgba(0, 0, 0, .3) }
+
+/* ---- Keypad PIN: bola kaca 3D ---- */
+.key {
+  --key-bg:
+    radial-gradient(circle at 30% 22%, rgba(255, 255, 255, .38), rgba(255, 255, 255, 0) 55%),
+    linear-gradient(145deg, rgba(244, 114, 182, .32), rgba(112, 26, 117, .6));
+  background: var(--key-bg);
+  border: 1px solid rgba(251, 207, 232, .35);
+  color: #fff;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, .4);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, .35), inset 0 1px 0 rgba(255, 255, 255, .3);
+  transition: transform .15s cubic-bezier(.2, .8, .3, 1.3), box-shadow .15s ease, filter .15s ease;
+}
+.key:hover,
+.key--back:hover,
+.key--ok:hover {
+  background: var(--key-bg);
+  filter: brightness(1.15);
+  transform: translateY(-2px) scale(1.07);
+  box-shadow: 0 0 0 3px rgba(244, 114, 182, .35), 0 10px 22px rgba(236, 72, 153, .4),
+              inset 0 1px 0 rgba(255, 255, 255, .35);
+}
+.key:active,
+.key--back:active,
+.key--ok:active {
+  background: var(--key-bg);
+  transform: scale(.92);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .4), inset 0 2px 6px rgba(0, 0, 0, .3);
+}
+.key--back {
+  --key-bg: linear-gradient(145deg, rgba(255, 255, 255, .1), rgba(255, 255, 255, .03));
+  color: #fbcfe8;
+}
+.key--ok {
+  --key-bg:
+    radial-gradient(circle at 30% 22%, rgba(255, 255, 255, .55), rgba(255, 255, 255, 0) 55%),
+    var(--g-ok);
+  border-color: rgba(255, 255, 255, .45);
+  color: #05402b;
+  text-shadow: none;
+  box-shadow: 0 8px 20px rgba(16, 185, 129, .5), inset 0 1px 0 rgba(255, 255, 255, .5);
+}
+.key--ok:hover {
+  box-shadow: 0 0 0 3px rgba(110, 231, 183, .4), 0 12px 26px rgba(16, 185, 129, .6),
+              inset 0 1px 0 rgba(255, 255, 255, .55);
+}
+
+/* ---- Kolom nama: kaca dengan cahaya saat fokus ---- */
+.name-input {
+  border: 2px solid rgba(251, 207, 232, .5);
+  background: rgba(255, 255, 255, .08);
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, .25);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+.name-input:hover { border-color: #fbcfe8 }
+.name-input:focus {
+  border-color: #fff;
+  box-shadow: 0 0 0 4px rgba(244, 114, 182, .35), 0 0 24px rgba(244, 114, 182, .4);
+}
+.name-input.is-invalid { border-color: #f87171 }
+
+/* ---- Tombol pemutar musik ---- */
+.mp-ibtn {
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border-radius: 50%;
+  color: #fbcfe8;
+}
+.mp-ibtn:hover { background: rgba(244, 114, 182, .2); color: #fff; transform: scale(1.12) }
+.mp-ibtn.is-on {
+  background: rgba(244, 114, 182, .25);
+  box-shadow: 0 0 14px rgba(244, 114, 182, .45);
+}
+.mp-ibtn.is-on::after { display: none }
+
+/* Tombol putar/jeda: bola gradien dengan cincin denyut saat musik main */
+.mp-ibtn.big {
+  width: 52px;
+  height: 52px;
+  background: var(--g-main);
+  color: #fff;
+  font-size: 17px;
+  box-shadow: var(--glow), inset 0 1px 0 rgba(255, 255, 255, .45);
+}
+.mp-ibtn.big:hover { background: var(--g-main); color: #fff; filter: brightness(1.1); transform: scale(1.1) }
+.mp-ibtn.big:active { transform: scale(.95) }
+.mp-bar.is-playing .mp-ibtn.big { animation: big-ring 1.8s ease-out infinite }
+@keyframes big-ring {
+  0%   { box-shadow: var(--glow), 0 0 0 0 rgba(244, 114, 182, .55) }
+  100% { box-shadow: var(--glow), 0 0 0 16px rgba(244, 114, 182, 0) }
+}
+
+/* Bar progres bergradien dengan titik bercahaya */
+.mp-track .mp-fill,
+.mp-track:hover .mp-fill { background: linear-gradient(90deg, #ff85a2, #ec4899, #a855f7) }
+.mp-knob { box-shadow: 0 0 10px rgba(244, 114, 182, .9) }
